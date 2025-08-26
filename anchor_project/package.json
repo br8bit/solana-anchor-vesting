@@ -2,19 +2,28 @@
   "name": "@project/anchor",
   "version": "0.1.0",
   "description": "Anchor program types and utilities for the vesting project",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "test": "jest"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.31.1",
-    "@solana/web3.js": "^1.98.4"
+    "@solana/web3.js": "^1.98.4",
+    "@solana/spl-token": "^0.4.13"
   },
   "devDependencies": {
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.3.0",
+    "jest": "^30.0.5",
+    "ts-jest": "^29.4.1",
+    "anchor-bankrun": "^0.5.0",
+    "solana-bankrun": "^0.4.0",
+    "spl-token-bankrun": "^0.2.6"
   },
   "files": [
     "dist/**/*",
