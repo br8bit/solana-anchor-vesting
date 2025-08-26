@@ -15,10 +15,13 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "types": ["node"]
+    "types": ["node", "jest"],
+    "typeRoots": ["./types", "./node_modules/@types"]
   },
   "include": [
     "src/**/*",
+    "tests/**/*",
+    "types/**/*",
     "target/types/**/*",
     "target/idl/**/*"
   ],
@@ -27,7 +30,6 @@
     "dist",
     "target/debug",
     "target/release",
-    "target/deploy",
-    "tests"
+    "target/deploy"
   ]
 }
