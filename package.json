@@ -1,0 +1,28 @@
+{
+  "name": "vesting-project",
+  "version": "0.1.0",
+  "description": "Solana vesting program with Next.js frontend",
+  "private": true,
+  "workspaces": [
+    "anchor_project",
+    "frontend"
+  ],
+  "scripts": {
+    "build": "npm run build:anchor && npm run build:frontend",
+    "build:anchor": "cd anchor_project && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "dev": "npm run dev:anchor & npm run dev:frontend",
+    "dev:anchor": "cd anchor_project && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "anchor:build": "cd anchor_project && anchor build",
+    "anchor:test": "cd anchor_project && anchor test",
+    "anchor:deploy": "cd anchor_project && anchor deploy",
+    "clean": "npm run clean:anchor && npm run clean:frontend",
+    "clean:anchor": "cd anchor_project && npm run clean",
+    "clean:frontend": "cd frontend && rm -rf .next",
+    "install:all": "npm install && cd anchor_project && npm install && cd ../frontend && pnpm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

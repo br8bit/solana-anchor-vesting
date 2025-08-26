@@ -1,0 +1,84 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules/
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+.next/
+out/
+
+# production
+build/
+dist/
+
+# misc
+.DS_Store
+*.pem
+
+# lock files
+Cargo.lock
+package-lock.json
+
+# Keep pnpm-lock.yaml and yarn.lock for reproducible builds
+# Uncomment these if you want to ignore them:
+# pnpm-lock.yaml
+# yarn.lock
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Rust/Anchor
+target/
+.anchor/
+test-ledger/
+**/*.rs.bk
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary and cache files
+*.tmp
+*.temp
+.cache/
+.parcel-cache/
+
+# Generated files that should not be committed
+anchor_project/dist/
+
+# Deployment artifacts
+.vercel/
