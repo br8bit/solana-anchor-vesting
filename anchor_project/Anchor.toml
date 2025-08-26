@@ -13,9 +13,9 @@ vesting = "5D52qmDeLYqVCbWddfRCD5pR3v9MwTqvkwkMywFiAEmy"
 url = "https://api.apr.dev"
 
 [provider]
-# cluster = "localnet"
-cluster = "devnet"
+cluster = "localnet"
+# cluster = "devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
-test = "../node_modules/.bin/jest --preset ts-jest"
+test = "pnpm test"

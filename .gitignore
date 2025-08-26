@@ -31,8 +31,8 @@ package-lock.json
 
 # Keep pnpm-lock.yaml and yarn.lock for reproducible builds
 # Uncomment these if you want to ignore them:
-# pnpm-lock.yaml
-# yarn.lock
+pnpm-lock.yaml
+yarn.lock
 
 # debug
 npm-debug.log*
