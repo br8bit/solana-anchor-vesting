@@ -1,92 +1,108 @@
-![School of Solana](https://github.com/Ackee-Blockchain/school-of-solana/blob/master/.banner/banner.png?raw=true)
+# Project Description
 
-## 📚Solana Program
-We are about halfway through the course, and you already have some experience with programming on Solana. It is time to create something on your own! You will be building a dApp that will serve as the culmination of everything you have learned so far. Feel free to implement whatever comes to your mind, (as long as it passes the requirements).
+**Deployed Frontend URL:** <https://vesting-nine.vercel.app>
 
-**This does not mean that the School of Solana is coming to an end just yet!** There are still several exciting lectures ahead, as well as one security related task.
+**Solana Program ID:** 9EaFVdWxtmUro5U23yde2qezeL1LfbRnS4xuwSNDUWND
 
-### Task details
-This task consists of two parts:
-1. **Core of your dApp**
-    - A deployed Solana program.
-2. **Frontend**
-    - A simple frontend to interact with the dApp.
+## Project Overview
 
-### Requirements
-- An Anchor program deployed on **Devnet** or **Mainnet**.
-- The Anchor program must use a PDA (Program Derived Address).
-- At least one TypeScript **test** for each Anchor program instruction. These tests should cover both **happy** and **unhappy** (intentional error-triggering) scenarios.
-- A simple **frontend** deployed using your preferred provider (for more info, check below).
-- A filled out **PROJECT_DESCRIPTION.md** file.
+### Description
 
-### Ideas
-We highly recommend starting with something simple. Take time to think through your project and work on it in iterations. Do not try to implement everything at once!
+A decentralized token vesting application built on Solana that allows companies to create vesting schedules for their employees. The dApp provides a secure, transparent way to manage token distributions with configurable vesting periods, cliff times, and claiming mechanisms. Companies can create vesting accounts with treasuries, set up individual employee vesting schedules, and employees can claim their vested tokens according to the defined schedule.
 
-Below is a list of few ideas to get you started:
-- **Social app**
-    - Instagram
-    - Giphy
-    - Friendtech
-    - Spotify
-- **Blog**
-- **Voting** ([D21 - Janeček method](https://www.ih21.org/en/guidelines))
-- **DeFi**
-    - Crowdfunding
-    - Raffles
-    - Escrow
-    - Tipping
-    - Lending ([Save Documentation](https://docs.save.finance/))
-    - Liquid Staking ([Marinade Documentation](https://docs.marinade.finance/))
-    - Data Query with Pyth ([Pyth Documentation](https://docs.pyth.network/price-feeds))
-    - AMM ([Raydium Documentation](https://raydium.gitbook.io/raydium/))
-- **Gaming**
-    - Browser Game ([Gaming on Solana](https://solanacookbook.com/gaming/nfts-in-games.html#nfts-in-games))
+### Key Features
 
-### Deadline
-The deadline for this task is **Wednesday, August 27th, at 23:59 UTC**.
->[!CAUTION]
->Note that we will not accept submissions after the deadline.
+- **Create Vesting Account**: Companies can create vesting accounts with unique company names and token treasuries
+- **Employee Vesting Setup**: Companies can set up individual vesting schedules for employees with start/end times and cliff periods
+- **Token Claiming**: Employees can claim vested tokens based on time-based vesting calculations
+- **Vesting Calculation**: Automatic calculation of vested amounts based on linear vesting with cliff time support
+- **Secure Treasury Management**: Token treasuries secured with PDAs and proper access controls
 
-### Submission
-There are two folders, one for the Anchor project, and one for the frontend. Push your changes to the **main** branch of **this** repository.
+### How to Use the dApp
 
->[!IMPORTANT]
->It is essential that you fill out the `PROJECT_DESCRIPTION.md` template completely and accurately. This document will be used by AI for the initial evaluation, so provide detailed information about your project, including working links, clear descriptions, and technical implementation details.
+1. **Connect Wallet** - Connect your Solana wallet
+2. **Create Vesting Account** - Companies create a vesting account by providing a unique company name and token mint address
+3. **Set Up Employee Vesting** - Companies configure vesting schedules for employees by specifying beneficiary, start/end times, total amount, and cliff time
+4. **Claim Tokens** - Employees claim their vested tokens based on the time-based vesting schedule
+5. **View Vesting Details** - Users can view vesting account details, employee vesting information, and claimed amounts
 
-### Evaluation
-The evaluation process is based on the **requirements**. If you meet the requirements, you pass the task!
+## Program Architecture
 
->[!NOTE]
->We have a record number of participants this season, so the first round of evaluations will be conducted by AI to verify requirements before manual review. AI can make mistakes. If you believe you fulfilled all requirements but weren't graded correctly, please create a support ticket and we will resolve the issue.
+The Vesting dApp uses a dual-account architecture with vesting accounts for companies and employee accounts for individuals. The program leverages PDAs to create deterministic addresses for both account types, ensuring security and preventing conflicts.
 
->[!CAUTION]
->We expect original work that demonstrates your understanding and creativity. While you may draw inspiration from examples covered in lessons and tasks, **direct copying is not acceptable**. If you choose to build upon an example from the School of Solana materials, you must significantly expand it with additional features, instructions, and functionality to showcase your learning progress. 
+### PDA Usage
 
-### Example Workflow
-Let's say you are going to implement the Twitter dApp as the Solana Program. Here's how the steps could look:
+The program uses Program Derived Addresses to create deterministic accounts for vesting and employee records.
 
-**1.** Implement Twitter dApp using the Anchor framework.
+**PDAs Used:**
 
-**2.** Test the Twitter dApp using the Anchor framework.
+- **Vesting Account PDA**: Derived from seeds `[company_name]` - ensures each company has a unique vesting account with treasury
+- **Employee Account PDA**: Derived from seeds `["employee_vesting", beneficiary_pubkey, vesting_account_pubkey]` - ensures each employee has a unique vesting schedule per company
+- **Treasury Token Account PDA**: Derived from seeds `["vesting_treasury", company_name]` - secure treasury for holding tokens to be vested
 
-**3.** Deploy the Twitter dApp on the Solana Devnet.
+### Program Instructions
 
-**4.** Using the create solana dapp template, implement frontend for the Twitter dApp.
+**Instructions Implemented:**
 
-**5.** Publish Frontend using [Vercel](https://vercel.com).
+- **CreateVestingAccount**: Creates a new vesting account for a company with an associated treasury token account
+- **CreateEmployeeVesting**: Sets up a vesting schedule for an employee with specified parameters (start/end times, total amount, cliff time)
+- **ClaimTokens**: Allows employees to claim their vested tokens according to the time-based vesting schedule
 
-**6.** Fill out the PROJECT_DESCRIPTION.md template.
+### Account Structure
 
-**7.** Submit the Twitter dApp using GitHub Classroom.
+```rust
+#[account]
+#[derive(InitSpace, Debug)]
+pub struct VestingAccount {
+    pub owner: Pubkey,              // The company wallet that owns this vesting account
+    pub mint: Pubkey,               // Token mint address for the vesting tokens
+    pub treasury_token_account: Pubkey, // Treasury token account holding the tokens to be vested
+    pub treasury_bump: u8,          // Bump seed for the treasury PDA
+    pub bump: u8,                   // Bump seed for this account's PDA
+    #[max_len(50)]
+    pub company_name: String,       // Unique company name identifier
+}
 
-### Useful Links
-- [Vercel](https://vercel.com)
-- [Create Solana Dapp](https://github.com/solana-foundation/create-solana-dapp)
-- [Account Macro Constraints](https://docs.rs/anchor-lang/latest/anchor_lang/derive.Accounts.html#constraints)
-- [Solana Developers Courses](https://solana.com/developers/courses)
+#[account]
+#[derive(InitSpace, Debug)]
+pub struct EmployeeAccount {
+    pub vesting_account: Pubkey,    // Reference to the company's vesting account
+    pub beneficiary: Pubkey,        // Employee wallet that can claim tokens
+    pub start_time: i64,            // Unix timestamp when vesting starts
+    pub end_time: i64,              // Unix timestamp when vesting ends
+    pub total_amount: i64,          // Total amount of tokens to be vested
+    pub total_withdrawn: i64,       // Amount of tokens already claimed
+    pub cliff_time: i64,            // Unix timestamp when cliff period ends
+    pub bump: u8,                   // Bump seed for this account's PDA
+}
+```
 
------
+## Testing
 
-### Need help?
->[!TIP]
->If you have any questions, feel free to reach out to us on [Discord](https://discord.gg/z3JVuZyFnp).
+### Test Coverage
+
+Comprehensive test suite covering all instructions with both successful operations and error conditions to ensure program security and reliability.
+
+**Happy Path Tests:**
+
+- **Create Vesting Account**: Successfully creates a new vesting account with treasury token account
+- **Create Employee Vesting**: Properly sets up employee vesting schedule with all parameters
+- **Claim Tokens**: Successfully transfers vested tokens to employee's token account
+
+**Unhappy Path Tests:**
+
+- **Claim Before Cliff**: Fails when employee tries to claim tokens before cliff time
+- **Claim Nothing to Claim**: Fails when employee tries to claim when no tokens are available
+- **Unauthorized Employee Setup**: Fails when non-owner tries to set up employee vesting
+- **Unauthorized Token Claim**: Fails when non-beneficiary tries to claim tokens
+
+### Running Tests
+
+```bash
+npm install         # install dependencies
+anchor test         # run tests
+```
+
+### Additional Notes for Evaluators
+
+This vesting program demonstrates advanced Solana development concepts including complex PDA structures, time-based calculations, cross-program invocations for token transfers, and proper error handling. The program implements a realistic vesting model with cliff periods and linear vesting over time, similar to what you might find in real-world token distribution scenarios. The frontend provides an intuitive interface for both company administrators and employees to manage and claim vesting schedules.
