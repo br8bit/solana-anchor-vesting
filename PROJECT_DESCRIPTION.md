@@ -1,6 +1,6 @@
 # Project Description
 
-**Deployed Frontend URL:** [TODO: Link to your deployed frontend]
+**Deployed Frontend URL:** <https://vesting-nine.vercel.app>
 
 **Solana Program ID:** 9EaFVdWxtmUro5U23yde2qezeL1LfbRnS4xuwSNDUWND
 
